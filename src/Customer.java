@@ -32,18 +32,23 @@ public class Customer {
 
 	}
 
-	private double getRentalCharge(Rental each)
+	private int getRentalDaysLeft(Rental rental)
 	{
-		double eachCharge = 0;
 		int daysRented = 0;
 
-		if (each.getStatus() == 1) { // returned Video
-			long diff = each.getReturnDate().getTime() - each.getRentDate().getTime();
+		if (rental.getStatus() == 1) { // returned Video
+			long diff = rental.getReturnDate().getTime() - rental.getRentDate().getTime();
 			daysRented = (int) (diff / (1000 * 60 * 60 * 24)) + 1;
 		} else { // not yet returned
-			long diff = new Date().getTime() - each.getRentDate().getTime();
+			long diff = new Date().getTime() - rental.getRentDate().getTime();
 			daysRented = (int) (diff / (1000 * 60 * 60 * 24)) + 1;
 		}
+		return daysRented;
+	}
+
+	private double getRentalCharge(Rental each, int daysRented)
+	{
+		double eachCharge = 0;
 
 		switch (each.getVideo().getPriceCode()) {
 			case Video.REGULAR:
@@ -58,18 +63,9 @@ public class Customer {
 		return eachCharge;
 	}
 
-	private int getRentalPoints(Rental each)
+	private int getRentalPoints(Rental each, int daysRented)
 	{
 		int eachPoint = 0 ;
-		int daysRented = 0;
-
-		if (each.getStatus() == 1) { // returned Video
-			long diff = each.getReturnDate().getTime() - each.getRentDate().getTime();
-			daysRented = (int) (diff / (1000 * 60 * 60 * 24)) + 1;
-		} else { // not yet returned
-			long diff = new Date().getTime() - each.getRentDate().getTime();
-			daysRented = (int) (diff / (1000 * 60 * 60 * 24)) + 1;
-		}
 
 		eachPoint++;
 
@@ -91,9 +87,9 @@ public class Customer {
 		int totalPoint = 0;
 
 		for (Rental each : rentals) {
-			double eachCharge = getRentalCharge(each);
-			int eachPoint = getRentalPoints(each);
-			int daysRented = 0;
+			int daysRented = getRentalDaysLeft(each);
+			double eachCharge = getRentalCharge(each, daysRented);
+			int eachPoint = getRentalPoints(each, daysRented);
 
 			result += "\t" + each.getVideo().getTitle() + "\tDays rented: " + daysRented + "\tCharge: " + eachCharge
 					+ "\tPoint: " + eachPoint + "\n";
