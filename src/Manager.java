@@ -30,28 +30,13 @@ public class Manager {
         james.addRental(r2);
     }
 
-    void clearRentals(String customerName) {
-        Customer foundCustomer = findCustomer(customerName);
-
-        if (foundCustomer == null) {
-            System.out.println("No customer found");
-        } else {
-            System.out.println("Name: " + foundCustomer.getName() +
-                    "\tRentals: " + foundCustomer.getRentals().size());
-            for (Rental rental : foundCustomer.getRentals()) {
-                System.out.print("\tTitle: " + rental.getVideo().getTitle() + " ");
-                System.out.print("\tPrice Code: " + rental.getVideo().getPriceCode());
-            }
-            // Retail 을 Customer 도 가지고 있고... Video 도 가지고 있음..
-            List<Rental> rentals = new ArrayList<Rental>();
-            foundCustomer.setRentals(rentals);
-        }
+    void clearRentals(Customer customer) {
+        List<Rental> rentals = new ArrayList<Rental>();
+        customer.setRentals(rentals);
     }
 
-    public void returnVideo(String customerName, String videoTitle) {
-        Customer foundCustomer = findCustomer(customerName);
-        if (foundCustomer == null) return;
-        foundCustomer.returnVideo(videoTitle);
+    public void returnVideo(Customer customer, String videoTitle) {
+        customer.returnVideo(videoTitle);
     }
 
     public Customer findCustomer(String customerName) {

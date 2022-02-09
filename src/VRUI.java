@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 
 public class VRUI {
@@ -37,17 +39,33 @@ public class VRUI {
 	public void clearRentals() {
 		System.out.println("Enter customer name: ") ;
 		String customerName = scanner.next() ;
-		manager.clearRentals(customerName);
+
+		Customer foundCustomer = manager.findCustomer(customerName);
+
+		if (foundCustomer == null) {
+			System.out.println("No customer found");
+		} else {
+			System.out.println("Name: " + foundCustomer.getName() +
+					"\tRentals: " + foundCustomer.getRentals().size());
+			for (Rental rental : foundCustomer.getRentals()) {
+				System.out.print("\tTitle: " + rental.getVideo().getTitle() + " ");
+				System.out.print("\tPrice Code: " + rental.getVideo().getPriceCode());
+			}
+			manager.clearRentals(foundCustomer);
+		}
 	}
 
 	public void returnVideo() {
 		System.out.println("Enter customer name: ") ;
 		String customerName = scanner.next() ;
 
+		Customer foundCustomer = manager.findCustomer(customerName);
+		if (foundCustomer == null) return;
+
 		System.out.println("Enter video title to return: ") ;
 		String videoTitle = scanner.next() ;
 
-		manager.returnVideo(customerName, videoTitle);
+		manager.returnVideo(foundCustomer, videoTitle);
 	}
 
 	public void listVideos() {
