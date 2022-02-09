@@ -29,7 +29,6 @@ public class Customer {
 
 	public void addRental(Rental rental) {
 		rentals.add(rental);
-
 	}
 
 	public String getReport() {
@@ -81,5 +80,16 @@ public class Customer {
 			System.out.println("Congrat! You earned two free coupon");
 		}
 		return result ;
+	}
+
+	public void returnVideo(String videoTitle) {
+		List<Rental> customerRentals = getRentals() ;
+		for ( Rental rental: customerRentals ) {
+			if ( rental.getVideo().getTitle().equals(videoTitle) && rental.getVideo().isRented() ) {
+				rental.returnVideo();
+				rental.getVideo().setRented(false);
+				break ;
+			}
+		}
 	}
 }
