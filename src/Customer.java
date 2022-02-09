@@ -45,7 +45,7 @@ public class Customer {
 			double eachCharge = each.getRentalCharge(daysRented);
 			int eachPoint = each.getRentalPoints(daysRented);
 
-			result += "\t" + each.getVideo().getTitle() + "\tDays rented: " + daysRented + "\tCharge: " + eachCharge
+			result += "\t" + each.getVideoTitle() + "\tDays rented: " + daysRented + "\tCharge: " + eachCharge
 					+ "\tPoint: " + eachPoint + "\n";
 
 			totalCharge += eachCharge;

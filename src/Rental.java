@@ -125,4 +125,9 @@ public class Rental {
 
 		return eachPoint;
 	}
+
+	public String getVideoTitle()
+	{
+		return getVideo().getTitle();
+	}
 }
