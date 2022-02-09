@@ -70,4 +70,8 @@ public class Video {
 	public void setRented(boolean rented) {
 		this.rented = rented;
 	}
+
+	public int getPoint(int point) {
+		return priceBehavior.getType() == Video.NEW_RELEASE ? point++:point;
+	}
 }

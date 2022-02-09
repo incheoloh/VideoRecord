@@ -55,14 +55,18 @@ public class Customer {
 
 		result += "Total charge: " + totalCharge + "\tTotal Point:" + totalPoint + "\n";
 
+		showFreeCoupon(totalPoint);
 
+		return result ;
+	}
+
+	private void showFreeCoupon(int totalPoint) {
 		if ( totalPoint >= 10 ) {
 			System.out.println("Congrat! You earned one free coupon");
 		}
 		if ( totalPoint >= 30 ) {
 			System.out.println("Congrat! You earned two free coupon");
 		}
-		return result ;
 	}
 
 	public void returnVideo(String videoTitle) {
