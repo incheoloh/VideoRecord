@@ -1,42 +1,58 @@
-import java.util.Date;
-
 public class Video {
 	private String title ;
 
-	private int priceCode ;
 	public static final int REGULAR = 1 ;
 	public static final int NEW_RELEASE =2 ;
 
-	private int videoType ;
+	private VideoPriceBehavior priceBehavior;
+
 	public static final int VHS = 1 ;
 	public static final int CD = 2 ;
 	public static final int DVD = 3 ;
 
-	private Date registeredDate ;
+	private VideoTypeBehavior typeBehavior;
+
 	private boolean rented ;
 
-	public Video(String title, int videoType, int priceCode, Date registeredDate) {
+	public Video(String title, int videoType, int priceCode) {
 		this.setTitle(title) ;
-		this.setVideoType(videoType) ;
-		this.setPriceCode(priceCode) ;
-		this.registeredDate = registeredDate ;
+		createVideoTypeBehavior(videoType);
+		createVideoPriceCodeBehavior(priceCode);
+	}
+
+	private void createVideoPriceCodeBehavior(int priceCode) {
+		switch (priceCode) {
+			case REGULAR: this.priceBehavior = new VideoPriceRegular() ; break ;
+			case NEW_RELEASE: this.priceBehavior = new VideoPriceRelease() ; break ;
+		}
+	}
+
+	private void createVideoTypeBehavior(int videoType) {
+		switch (videoType) {
+			case VHS: this.typeBehavior = new VideoTypeVHS() ; break ;
+			case CD: this.typeBehavior = new VideoTypeCD() ; break ;
+			case DVD: this.typeBehavior = new VideoTypeDVD() ; break ;
+		}
 	}
 
 	public int getLateReturnPointPenalty() {
-		int pentalty = 0 ;
-		switch ( videoType ) {
-			case VHS: pentalty = 1 ; break ;
-			case CD: pentalty = 2 ; break ;
-			case DVD: pentalty = 3 ; break ;
-		}
-		return pentalty ;
-	}
-	public int getPriceCode() {
-		return priceCode;
+		return typeBehavior.getPenalty();
 	}
 
-	public void setPriceCode(int priceCode) {
-		this.priceCode = priceCode;
+	public int getDaysRentedLimit() {
+		return typeBehavior.getLimit();
+	}
+
+	public int getPriceCode() {
+		return priceBehavior.getType();
+	}
+
+	public double getEachCharge(double eachCharge, int daysRented) {
+		return priceBehavior.getEachCharge(eachCharge, daysRented);
+	}
+
+	public int getVideoType() {
+		return typeBehavior.getType();
 	}
 
 	public String getTitle() {
@@ -53,21 +69,5 @@ public class Video {
 
 	public void setRented(boolean rented) {
 		this.rented = rented;
-	}
-
-	public Date getRegisteredDate() {
-		return registeredDate;
-	}
-
-	public void setRegisteredDate(Date registeredDate) {
-		this.registeredDate = registeredDate;
-	}
-
-	public int getVideoType() {
-		return videoType;
-	}
-
-	public void setVideoType(int videoType) {
-		this.videoType = videoType;
 	}
 }
