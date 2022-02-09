@@ -127,8 +127,7 @@ public class VRUI {
 			System.out.println("Enter price code( 1 for Regular, 2 for New Release ):") ;
 			int priceCode = scanner.nextInt();
 
-			Date registeredDate = new Date();
-			Video video = new Video(title, videoType, priceCode, registeredDate) ;
+			Video video = new Video(title, videoType, priceCode) ;
 			manager.addVideo(video) ;
 		}
 	}
